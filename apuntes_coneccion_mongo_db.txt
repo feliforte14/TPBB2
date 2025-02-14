@@ -1,0 +1,7 @@
+para conectarse a el cluster con la base de datos ya creada en mongo db desde visual studio code:
+
+1 descargarse la extención de mongo db.
+2 en "connections" apretar el  + 
+3 seleccionar el Connect with Connection String 
+4 en el buscador ejecutar mongodb+srv://jonathanmayan:PASWORDDB1@cluster0.woepn.mongodb.net/
+ese usuario es administrador del cluster
