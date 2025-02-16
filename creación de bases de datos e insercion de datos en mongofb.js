@@ -1,4 +1,3 @@
-/* global use, db */
 
 // Select the database to use.
 use('base_datos_tp_ingenieria_datos2');
