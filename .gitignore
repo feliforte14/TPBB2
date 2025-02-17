@@ -1,9 +1,32 @@
 # Archivos de configuración con claves y tokens sensibles
 ConeccionMongo.py
 ConeccionCasandra.py
+requirements.txt
+config.py
+config.json
+config.yaml
+config.yml
+config.ini
+config.cfg
+config.toml
+config.env
+config.sh
+config.bash
+config.zsh
+config.ksh
+config.csh
+config.tcsh
+config.rc
+config.bat
+config.cmd
+config.ps1
+config.vbs
+
+
 
 # Archivos de variables de entorno locales
 .env
+
 
 # Archivos de caché y compilación
 *.pyc
