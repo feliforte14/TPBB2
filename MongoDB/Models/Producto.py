@@ -1,8 +1,8 @@
 class Producto:
-    def __init__(self, id_producto, descripcion, categorias):
-        self.id_producto = id_producto
+    def __init__(self,  descripcion, categorias,catalogo):
         self.descripcion = descripcion
         self.categorias = categorias
+        self.catalogo=catalogo
 
     def to_dict(self):
         return {

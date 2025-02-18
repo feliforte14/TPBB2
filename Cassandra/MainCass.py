@@ -1,13 +1,13 @@
 # main.py
-from Catalogo import Catalogo
+from Almacen import Almacen
 from Session import Session
 sesion=Session()
 
-#catalogo=Catalogo()
+catalogo=Almacen()
 
 
-#catalogo.insert_initial_data()
-#print(catalogo.find_all())
+catalogo.insert_initial_data()
+print(catalogo.find_all())
 
 #print("Datos en 'Catalogo':")
 #for doc in catalogo.find_all():    print(doc)
@@ -34,14 +34,14 @@ print(catalogo.cambiarStock(2,0))
 
 ##sesiones
 
-sesion=Session()
+""" sesion=Session()
 
 sesion.iniciar_session(15)
 
 sesion.nueva_solicitud(15,"301A")
 sesion.cerrar_session(15)
 
-print(sesion.todas_sesiones(15))
+print(sesion.todas_sesiones(15)) """
 #sesion.borrar_datos()
 
 #sesion.insert_initial_data()

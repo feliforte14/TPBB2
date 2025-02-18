@@ -16,9 +16,13 @@ from MongoDB.Services.SolicitudService import (
 from MongoDB.Services.EstadoSolicitudService import (
     insertar_estado_solicitud, obtener_estados_solicitud, eliminar_todos_los_estados_solicitud
 )
-from Cassandra.Catalogo import( Catalogo)
-Catalogo.conocerStock(2)
+from Cassandra.Almacen import( Almacen)
+from Cassandra.Session import(Session)
+Sesion=Session()
+Almacen=Almacen()
+Almacen.insert_initial_data()
 
+Sesion.insert_initial_data()
 from MongoDB.Models.Cliente import Cliente
 from MongoDB.Models.Producto import Producto
 from MongoDB.Models.CategoriaProducto import CategoriaProducto
@@ -32,7 +36,7 @@ def limpiar_y_insertar_clientes():
     eliminar_todos_los_clientes()
 
     clientes = [
-        Cliente( "Josefa", 2, 11),
+        Cliente(1, "Josefa", 2, 11),
         Cliente(2, "Enrique", 1, 12),
         Cliente(3, "Samanta", 1, 13)
     ]

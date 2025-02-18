@@ -1,14 +1,13 @@
 # catalogo.py
+from Cassandra.Config.ConeccionCasandra import AstraDBConnection
 
-from ConeccionCasandra import AstraDBConnection
-
-class Catalogo:
+class Almacen:
     def __init__(self):
         self.astra_db = AstraDBConnection()
-        self.collection_name = "Catalogo"
+        self.collection_name = "Almacen"
 
     def create_collection(self):
-        """Crea la colección 'Catalogo' si no existe."""
+        """Crea la colección 'Almacen' si no existe."""
         if self.collection_name not in self.astra_db.db.list_collection_names():
             self.astra_db.create_collection(self.collection_name)
             print(f"Colección '{self.collection_name}' creada.")
@@ -21,15 +20,16 @@ class Catalogo:
 
 
     def insert_initial_data(self):
-        """Inserta datos iniciales en la colección 'Catalogo'."""
-        catalogo_data = [
+        self.create_collection()
+        """Inserta datos iniciales en la colección 'Almacen'."""
+        almacen_data = [
             { "id_producto": 1, "stock": 100, "precio": 50},
             { "id_producto": 2, "stock": 150, "precio": 75},
             { "id_producto": 3, "stock": 200, "precio": 100},
             { "id_producto": 4, "stock": 250, "precio": 125},
             { "id_producto": 5, "stock": 300, "precio": 150},
         ]
-        self.astra_db.insert_many(self.collection_name, catalogo_data)
+        self.astra_db.insert_many(self.collection_name, almacen_data)
         print(f"Datos insertados en '{self.collection_name}'.")
 
     def conocerPrecio(self, id_producto):

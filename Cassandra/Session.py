@@ -1,7 +1,7 @@
 # session.py
 from astrapy import constants
 
-from ConeccionCasandra import AstraDBConnection 
+from Cassandra.Config.ConeccionCasandra import AstraDBConnection 
 from datetime import datetime
 
 class Session:
@@ -16,6 +16,7 @@ class Session:
             print(f"Colección '{self.collection_name}' creada.")
 
     def insert_initial_data(self):
+        self.create_collection()
         """
         Inserta datos iniciales en la colección 'Session' si está vacía.
         """
