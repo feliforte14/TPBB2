@@ -1,6 +1,10 @@
 # catalogo.py
+import random
 from Cassandra.Config.ConeccionCasandra import AstraDBConnection
-
+from Cassandra.Models.RegistroAlmacen import RegistroAlmacen
+from MongoDB.Services.ProductoService import (
+    insertar_producto, obtener_productos, eliminar_todos_los_productos
+)
 class Almacen:
     def __init__(self):
         self.astra_db = AstraDBConnection()
@@ -23,24 +27,24 @@ class Almacen:
         self.create_collection()
         """Inserta datos iniciales en la colección 'Almacen'."""
         almacen_data = [
-            { "id_producto": 1, "stock": 100, "precio": 50},
-            { "id_producto": 2, "stock": 150, "precio": 75},
-            { "id_producto": 3, "stock": 200, "precio": 100},
-            { "id_producto": 4, "stock": 250, "precio": 125},
-            { "id_producto": 5, "stock": 300, "precio": 150},
-        ]
+                ]
+        existentes=obtener_productos()
+        for prod in existentes:
+            almacen_data.append({"_id_producto":prod.get("_id"),"stock":random.randint(1,20),"precio":random.randint(1000,2000)})
+        
         self.astra_db.insert_many(self.collection_name, almacen_data)
         print(f"Datos insertados en '{self.collection_name}'.")
 
     def conocerPrecio(self, id_producto):
-        query = {"id_producto": id_producto}
-        documents = self.astra_db.find(self.collection_name, query)
-        for doc in documents:
-            return doc.get('precio')
-        return None  # Si no se encuentra el producto
-
+        try:
+            query = {"_id_producto": id_producto}
+            return self.astra_db.db[self.collection_name].find_one(query).get("precio")
+        except Exception as e:
+            print(f"no se encontró el precio")        
+            return False
+        
     def cambiarPrecio(self, id_producto, precioNuevo):
-        query = {"id_producto": id_producto}
+        query = {"_id_producto": id_producto}
         if precioNuevo>=1:
             update = {"$set": {"precio": precioNuevo}}  # Operación de actualización
             try:
@@ -59,7 +63,7 @@ class Almacen:
             return False
 
     def conocerStock(self, id_producto):
-        query = {"id_producto": id_producto}
+        query = {"_id_producto": id_producto}
         documents = self.astra_db.find(self.collection_name, query)
         for doc in documents:
             return doc.get('stock')
@@ -69,7 +73,7 @@ class Almacen:
 #           verificar que el stock a definir sea válido
         if stockNuevo >=0:
         
-            query={"id_producto":id_producto}
+            query={"_id_producto":id_producto}
             update={"$set":{"stock":stockNuevo}}
             try:
                 resultado = self.astra_db.db[self.collection_name].update_one(query, update)
@@ -87,7 +91,7 @@ class Almacen:
             return False    
 
     def restarAlStockActual(self,id_producto,cantidad_a_restar):
-        query={"id_producto":id_producto}
+        query={"_id_producto":id_producto}
         producto = self.astra_db.find(self.collection_name, query)
         cantidad_actual=0
 
@@ -112,7 +116,7 @@ class Almacen:
 
     def  sumarAlStockActual(self,id_producto,cantidad_a_sumar):
         if cantidad_a_sumar>0:
-            query={"id_producto":id_producto}
+            query={"_id_producto":id_producto}
             producto = self.astra_db.find_one(self.collection_name, query)
             cantidad_actual=0
             for p in producto:
@@ -131,6 +135,12 @@ class Almacen:
         else:
             print("no se pueden sumar negativos")
             return False
+    def agregarRegistro(self,RegistroAlmacen):
+        try:
+            self.astra_db.db[self.collection_name].insert_one(RegistroAlmacen)
+        except Exception as e:
+            print(f"no se pudo agregar registro {e}")
+
     def find_all(self):
         documents = self.astra_db.find(self.collection_name)
         return list(documents)  # Convertir el cursor a una lista

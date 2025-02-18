@@ -1,6 +1,6 @@
 class Cliente:
-    def __init__(self, id_cliente, nombre, tipo_cliente, contraseña, total_compras=0, total_gastado=0, categoria="LOW"):
-        self.id_cliente = id_cliente
+    def __init__(self,  nombre, tipo_cliente, contraseña, total_compras=0, total_gastado=0, categoria="LOW"):
+        
         self.nombre = nombre
         self.tipo_cliente = tipo_cliente
         self.contraseña = contraseña  # Se recomienda encriptar
@@ -10,7 +10,6 @@ class Cliente:
 
     def to_dict(self):
         return {
-            "id_cliente": self.id_cliente,
             "nombre": self.nombre,
             "tipoCliente": self.tipo_cliente,
             "contraseña": self.contraseña,

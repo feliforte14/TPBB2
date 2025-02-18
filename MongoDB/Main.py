@@ -16,16 +16,16 @@ from MongoDB.Services.SolicitudService import (
 from MongoDB.Services.EstadoSolicitudService import (
     insertar_estado_solicitud, obtener_estados_solicitud, eliminar_todos_los_estados_solicitud
 )
+from MongoDB.Services.CatalogoProductoService import(
+    obtener_catalogos,obtener_un_catalogo_por_id,obtener_catalogo_por_descripcion,insertar_catalogo,eliminar_todos_los_catalogos
+)
 from Cassandra.Almacen import( Almacen)
 from Cassandra.Session import(Session)
-Sesion=Session()
-Almacen=Almacen()
-Almacen.insert_initial_data()
-
-Sesion.insert_initial_data()
 from MongoDB.Models.Cliente import Cliente
 from MongoDB.Models.Producto import Producto
+from MongoDB.Models.CatalogoProducto import CatalogoProducto
 from MongoDB.Models.CategoriaProducto import CategoriaProducto
+from MongoDB.Models.CatalogoProducto import CatalogoProducto
 from MongoDB.Models.CategoriaCliente import CategoriaCliente
 from MongoDB.Models.Solicitud import Solicitud
 from MongoDB.Models.EstadoSolicitud import EstadoSolicitud
@@ -66,6 +66,19 @@ def limpiar_y_insertar_productos():
     print("\n✅ Productos insertados:")
     for producto in obtener_productos():
         print(producto)
+def limpiar_y_insertar_catalogos():
+            
+            try:
+                eliminar_todos_los_catalogos()
+                catalogos = [
+                    CatalogoProducto("Lanus",[1,3]),
+                    CatalogoProducto("Avellaneda",[2,4])
+                    ]
+                for cat in catalogos:
+                    insertar_catalogo(cat)
+            except Exception as e:
+                print(f"no se pudo eliminar e insertar catálogos {e}")
+
 
 def limpiar_y_insertar_categorias():
     """Elimina todas las categorías de productos y las reinserta."""
@@ -77,7 +90,8 @@ def limpiar_y_insertar_categorias():
         CategoriaProducto(2, "Deportes", "Equipamiento deportivo", [3, 6]),
         CategoriaProducto(3, "Hogar", "Artículos para el hogar", [1, 4])
     ]
-    
+
+
     for categoria in categorias:
         insertar_categoria(categoria)
 
@@ -184,21 +198,94 @@ def limpiar_y_insertar_facturas(): # Funcion para test
     except Exception as ex:
         print(f"Otro error: {ex}")
     
+almacen=Almacen()
+session=Session(
+)
+
+
+def cargar_data_en_todos_lados():
+    cat_prod_1=CatalogoProducto("tecnologia","cosas tecnológicas")
+    cat_prod_2=CatalogoProducto("alimnetos","cosas ricas")
+    
+    insertar_categoria(cat_prod_1)
+    insertar_categoria(cat_prod_2)
+    todas_las_cat=obtener_categorias()
+
+    prod_1=Producto("celular",[todas_las_cat[0].get("_id")])
+    prod_2=Producto("coca",[todas_las_cat[1].get("_id")])
+    prod_3=Producto("tablet",[todas_las_cat[0].get("_id")])
+    prod_4=Producto("sanguche",[todas_las_cat[1].get("_id")]])
+
+    insertar_producto(prod_1)
+    insertar_producto(prod_2)
+    insertar_producto(prod_3)
+    insertar_producto(prod_4)
+
+    todos_los_prod=obtener_productos()
+    catalogo1=CatalogoProducto("Lanus",[todos_los_prod[0].get("_id"),todos_los_prod[2].get("_id")])
+    catalogo2=CatalogoProducto("Balcarce",[todos_los_prod[1].get("_id"),todos_los_prod[3].get("_id")])
+
+    insertar_catalogo(catalogo1)
+    insertar_catalogo(catalogo2)
+
+    cat_cliente1=CategoriaCliente("low","clientes básicos")
+    cat_cliente2=CategoriaCliente("upper","clientes premium",0.8)
+
+    insertar_categoria_cliente(cat_cliente1)
+    insertar_categoria_cliente(cat_cliente2)
+
+    todas_las_categorias()
+
+    cliente1=Cliente("pedro",cat_cliente1.to_dict().get("_id"))
+    cliente2=Cliente("Sabrina",cat_cliente2.to_dict().get("_id"))
+    cliente3=Cliente("Felipe",cat_cliente2.to_dict().get("_id"))
+    cliente4=Cliente("Joni",cat_cliente2.to_dict().get("_id"))
+
+    todos_los_clientes=obtener_clientes()
+
+    insertar_cliente(cliente1)
+    insertar_cliente(cliente2)
+    insertar_cliente(cliente3)
+    insertar_cliente(cliente4)
+
+session=Session()
+    session.iniciar_session()
 
 def main():
+
+    ## armar las categorías de producto
+    ## armar los productos 3
+    ## armar los catálogos de productos
+
+    ## armar categoría clientes
+    ## armar clientes
+    
+    ## armar sesiones
+    # armar solicitudes 
+    # armar factura 
+
+
+
     """ Función principal para gestionar clientes, productos y categorías en MongoDB """
     try:
+
+        """
         limpiar_y_insertar_clientes()
-        limpiar_y_insertar_productos()
+        
         limpiar_y_insertar_categorias()
         limpiar_y_insertar_categorias_clientes()
         limpiar_y_insertar_solicitudes()
         limpiar_y_insertar_estados_solicitud()
         limpiar_y_insertar_facturas()
+        limpiar_y_insertar_productos()
+        limpiar_y_insertar_catalogos()
+                """
+
+        print(obtener_catalogo_por_descripcion("Lanus"))
         
 
     except Exception as e:
-        print(f"❌ Error en la ejecución: {e}")
+            print(f"❌ Error en la ejecución: {e}")
 
 if __name__ == "__main__":
     main()
