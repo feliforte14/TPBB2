@@ -166,4 +166,4 @@ class Session:
         for doc in documents:
             print(doc)
 
-        return True
+        return list(documents)
