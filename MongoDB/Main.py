@@ -143,6 +143,48 @@ def limpiar_y_insertar_estados_solicitud():
     for estado in obtener_estados_solicitud():
         print(estado)
 
+def limpiar_y_insertar_facturas(): # Funcion para test
+    factura_service = FacturaService()
+
+    #  ¡Asegúrate de que existan solicitudes y clientes antes de crear facturas!
+    #  (o usa los IDs que ya hayas insertado)
+
+    try:
+        # Creación de facturas (ejemplo).  Debes tener solicitudes aprobadas.
+        id_factura1 = factura_service.crear_factura("654c2b2d2686879884662xxx", "654a8f9d4b4b4c5f886e6xxx") # RECUERDA USAR TUS PROPIOS ID
+        print(f"Factura creada con ID: {id_factura1}")
+
+        id_factura2 = factura_service.crear_factura("654c2b2d2686879884662yyy", "654a8f9d4b4b4c5f886e6yyy") # RECUERDA USAR TUS PROPIOS ID
+        print(f"Factura creada con ID: {id_factura2}")
+
+        # Obtener una factura por ID
+        factura = factura_service.obtener_factura_por_id(id_factura1)
+        if factura:
+            print(f"\nFactura obtenida por ID: {factura}")
+        
+        # Obtener el id de solicitud
+        id_solicitud_obtenida = factura_service.obtener_id_solicitud_de_factura(id_factura1)
+        if id_solicitud_obtenida:
+            print(f"\nId de solicitud obtenida por ID de factura: {id_solicitud_obtenida}")
+        # Obtener facturas por cliente
+        facturas_cliente = factura_service.obtener_facturas_por_cliente("654a8f9d4b4b4c5f886e6xxx")
+        print(f"\nFacturas del cliente 1: {facturas_cliente}")
+        
+        # Obtener facturas por cliente
+        facturas_cliente = factura_service.obtener_facturas_por_cliente("654a8f9d4b4b4c5f886e6yyy")
+        print(f"\nFacturas del cliente 1: {facturas_cliente}")
+
+        # Obtener todas las facturas
+        todas_las_facturas = factura_service.obtener_todas_las_facturas()
+        print(f"\nToda las facturas: {todas_las_facturas}")
+
+
+    except ValueError as e:
+        print(f"Error: {e}")
+    except Exception as ex:
+        print(f"Otro error: {ex}")
+    
+
 def main():
     """ Función principal para gestionar clientes, productos y categorías en MongoDB """
     try:
@@ -152,6 +194,8 @@ def main():
         limpiar_y_insertar_categorias_clientes()
         limpiar_y_insertar_solicitudes()
         limpiar_y_insertar_estados_solicitud()
+        limpiar_y_insertar_facturas()
+        
 
     except Exception as e:
         print(f"❌ Error en la ejecución: {e}")
