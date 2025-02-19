@@ -39,9 +39,19 @@ def obtener_categoria_por_id(_id_categoria):
         print(f"no se encontró la categoría buscada {e}")
         return False
     
-def obtener_categoria_por_descripcion(_descripcion):
+def obtener_categoria_por_nombre(_nombre):
     try:
-        return categorias_collection.find({"descripcion":_descripcion})
+        return categorias_collection.find({"nombre":_nombre})
     except Exception as e:
         print(f"no se encontró la categoría buscada  {e}")
+        return False
+
+def actualizar_categoria_producto(id_categoria,id_producto):
+    try:
+        categorias_collection.update_one(
+                {"_id": id_categoria},  # Filtro para encontrar el catálogo
+                {"$push": {"listaProductos": id_producto}}  # Operación para agregar el producto
+                )
+    except Exception as e:
+        print("no se pudo actualizar la categria")
         return False

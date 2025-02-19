@@ -8,7 +8,7 @@ from MongoDB.Services.ProductoService import (
     insertar_producto, obtener_productos, eliminar_todos_los_productos
 )
 from MongoDB.Services.CategoriaProductoService import (
-    insertar_categoria, obtener_categorias, eliminar_todas_las_categorias
+    insertar_categoria, obtener_categorias, eliminar_todas_las_categorias,actualizar_categoria_producto
 )
 from MongoDB.Services.CategoriaClienteService import (
     insertar_categoria_cliente, obtener_categorias_clientes, eliminar_todas_las_categorias_clientes
@@ -232,6 +232,10 @@ def cargar_data_en_todos_lados():
     insertar_producto(prod_4)
 
     todos_los_prod=obtener_productos()
+    actualizar_categoria_producto(todas_las_cat[0].get("_id"),todos_los_prod[0].get("_id"))
+    actualizar_categoria_producto(todas_las_cat[1].get("_id"),todos_los_prod[1].get("_id"))
+    actualizar_categoria_producto(todas_las_cat[0].get("_id"),todos_los_prod[2].get("_id"))
+    actualizar_categoria_producto(todas_las_cat[1].get("_id"),todos_los_prod[3].get("_id"))
 
     catalogo1=CatalogoProducto("Lanus","productos de  la categoria Lanus",[todos_los_prod[0].get("_id"),todos_los_prod[2].get("_id")])
     catalogo2=CatalogoProducto("Balcarce","productos de  la categoria Lanus",[todos_los_prod[1].get("_id"),todos_los_prod[3].get("_id")])
@@ -293,15 +297,10 @@ def cargar_data_en_todos_lados():
     session.nueva_solicitud(todos_los_clientes[1].get("_id"),tadas_las_solis[1]["_id"])
     session.cerrar_session(todos_los_clientes[1].get("_id"))
 
-    print("\nse genera una session")
     session.iniciar_session(todos_los_clientes[0].get("_id"))
-    print("\nse agrega un carrito a esa session")
-
+    
     session.nueva_solicitud(todos_los_clientes[0].get("_id"),tadas_las_solis[2]["_id"])
-    print("\nse cierra la session")
     session.cerrar_session(todos_los_clientes[0].get("_id"))
-    print("\nÚltima sesión de ese cliente")  
-    print(    session.ultima_solicitud(todos_los_clientes[0].get("_id")) )
     
     almacen=Almacen()
     almacen.borrar_datos()
@@ -310,8 +309,6 @@ def cargar_data_en_todos_lados():
     reg2=RegistroAlmacen(todos_los_prod[1].get("_id"),randint(0,50),randint(0,50000))
     reg3=RegistroAlmacen(todos_los_prod[2].get("_id"),randint(0,50),randint(0,50000))
     reg4=RegistroAlmacen(todos_los_prod[3].get("_id"),randint(0,50),randint(0,50000))
-
-
 
     almacen.agregarRegistro(reg1)
     almacen.agregarRegistro(reg2)
@@ -338,6 +335,14 @@ def main():
     try:
 
         cargar_data_en_todos_lados()
+     #   docs=obtener_productos ()
+    #    print(docs)
+        """ 
+            for doc in docs:
+            cats=doc.get("categorias")
+            for cat in cats:
+                print(f"/n  {cat}")
+        """
         """
         limpiar_y_insertar_clientes()
         

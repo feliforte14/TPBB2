@@ -20,9 +20,10 @@ class Session:
         if self.collection_name in self.astra_db.db.list_collection_names():
             try:
                  self.astra_db.db[self.collection_name].delete_many({})
+                 return True
             except Exception as e :
                 print( f'no se pudo borrar los datos de la coleccion {e}')
-
+                return False
     def iniciar_session(self, id_cliente):
         try:
 
@@ -119,8 +120,6 @@ class Session:
             { "id_cliente": id_cliente},
             sort={ "inicio": constants.SortDocuments.ASCENDING,},projection={"_id": True}
             )
-            print(f"/n {result}")
-
             print(f"la ultima solicitud del usuario {id_cliente}   es: {result.get("id_solicitud")}")
             return result.get("id_solicitud")
         except Exception as e:
@@ -134,7 +133,8 @@ class Session:
             return list(sesiones_existentes)
         except Exception as e:
             print(f'no se encontraron sesiones  {e}')
-            
+            return False
+        
     def obtener_session_por_id_sesion(self,_id_session):
         try:
             return self.astra_db.db[self.collection_name].find_one({"_id":_id_session})

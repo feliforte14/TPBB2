@@ -1,9 +1,9 @@
 class CategoriaProducto:
-    def __init__(self,  nombre, descripcion, productos_asociados=None):
+    def __init__(self,  nombre, descripcion, listaProductos=None):
         
         self.nombre = nombre
         self.descripcion = descripcion
-        self.productos_asociados = productos_asociados or []
+        self.listaProductos = listaProductos or []
 
     def to_dict(self):
         """Convierte la instancia en un diccionario para MongoDB."""
@@ -11,5 +11,5 @@ class CategoriaProducto:
         
             "nombre": self.nombre,
             "descripcion": self.descripcion,
-            "productos_asociados": self.productos_asociados
+            "listaProductos": self.listaProductos
         }

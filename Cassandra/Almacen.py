@@ -9,6 +9,7 @@ class Almacen:
     def __init__(self):
         self.astra_db = AstraDBConnection()
         self.collection_name = "Almacen"
+        print()
 
     def create_collection(self):
         """Crea la colección 'Almacen' si no existe."""
