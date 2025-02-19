@@ -160,7 +160,14 @@ class Session:
             return list(sesiones_existentes)
         except Exception as e:
             print(f'no se encontraron sesiones  {e}')
-    
+            
+    def obtener_session_por_id_sesion(self,_id_session):
+        try:
+            return self.astra_db.db[self.collection_name].find_one({"_id":_id_session})
+        except Exception as e:
+            print(f"no se encontró la session buscada {e}")
+            return False
+
     def find_all(self):
         documents = self.astra_db.find(self.collection_name)
         for doc in documents:

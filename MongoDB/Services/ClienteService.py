@@ -13,9 +13,9 @@ def insertar_cliente(cliente: Cliente):
         print(f"❌ Error al insertar cliente: {e}")
 
 def obtener_clientes():
-    """Obtiene la lista de clientes sin el campo _id"""
+    """Obtiene la lista de clientes """
     try:
-        return list(clientes_collection.find({}, {"_id": 0}))
+        return list(clientes_collection.find({}))
     except Exception as e:
         print(f"❌ Error al obtener clientes: {e}")
         return []
