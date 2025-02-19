@@ -249,12 +249,38 @@ def cargar_data_en_todos_lados():
 
     todos_los_clientes=obtener_clientes()
     
-    solicitud1=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[1].get("_id")],[2,3],todos_los_clientes[0].get("_id"),)
-    
-    
-    
+    estado_solicitud1=EstadoSolicitud("Carrito","Pendiente a confirmar carrito")
+    estado_solicitud2=EstadoSolicitud("Confirmado","Pendiente a facturar")
+    estado_solicitud3=EstadoSolicitud("Cancelado","Carrito cancelado")
+ 
+    insertar_estado_solicitud(estado_solicitud1)
+    insertar_estado_solicitud(estado_solicitud2)
+    insertar_estado_solicitud(estado_solicitud3)
+
+    todos_los_estados_soli=obtener_estados_solicitud()
+    solicitud1=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[1].get("_id")],[2,3],todos_los_clientes[0].get("_id"),todos_los_estados_soli[0].get("_Id"))
+    solicitud2=Solicitud([todos_los_prod[1].get("_id"),todos_los_prod[2].get("_id")],[2,3],todos_los_clientes[1].get("_id"),todos_los_estados_soli[0].get("_Id"))
+    solicitud3=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[3].get("_id")],[2,3],todos_los_clientes[0].get("_id"),todos_los_estados_soli[1].get("_Id"))
+
+    insertar_solicitud(solicitud1)    
+    insertar_solicitud(solicitud2)
+    insertar_solicitud(solicitud3)
+
+    tadas_las_solis=obtener_solicitudes()
     session=Session()
-    session.iniciar_session()
+    session.iniciar_session(todos_los_clientes[0].get("_id"))
+    session.nueva_solicitud(todos_los_clientes[0].get("_id"),tadas_las_solis[0].get("_id"))
+    session.cerrar_session(todos_los_clientes[0].get("_id"))
+
+    session.iniciar_session(todos_los_clientes[1].get("_id"))
+    session.nueva_solicitud(todos_los_clientes[1].get("_id"),tadas_las_solis[1].get("_id"))
+    session.cerrar_session(todos_los_clientes[1].get("_id"))
+
+
+    session.iniciar_session(todos_los_clientes[0].get("_id"))
+    session.nueva_solicitud(todos_los_clientes[0].get("_id"),tadas_las_solis[2].get("_id"))
+    session.cerrar_session(todos_los_clientes[0].get("_id"))
+
 
 def main():
 
@@ -275,6 +301,7 @@ def main():
     """ Función principal para gestionar clientes, productos y categorías en MongoDB """
     try:
 
+        cargar_data_en_todos_lados()
         """
         limpiar_y_insertar_clientes()
         
@@ -286,9 +313,7 @@ def main():
         limpiar_y_insertar_productos()
         limpiar_y_insertar_catalogos()
                 """
-
-        print(obtener_catalogo_por_descripcion("Lanus"))
-        
+   
 
     except Exception as e:
             print(f"❌ Error en la ejecución: {e}")

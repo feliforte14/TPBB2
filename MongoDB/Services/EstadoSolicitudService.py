@@ -13,9 +13,9 @@ def insertar_estado_solicitud(estado_solicitud: EstadoSolicitud):
         print(f"❌ Error al insertar estado de solicitud: {e}")
 
 def obtener_estados_solicitud():
-    """Obtiene la lista de estados de solicitud sin el campo _id."""
+    """Obtiene la lista de estados de solicitud """
     try:
-        return list(estados_solicitud_collection.find({}, {"_id": 0}))
+        return list(estados_solicitud_collection.find({}))
     except Exception as e:
         print(f"❌ Error al obtener estados de solicitud: {e}")
         return []
