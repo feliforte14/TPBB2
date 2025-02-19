@@ -214,7 +214,7 @@ def cargar_data_en_todos_lados():
     prod_1=Producto("celular",[todas_las_cat[0].get("_id")])
     prod_2=Producto("coca",[todas_las_cat[1].get("_id")])
     prod_3=Producto("tablet",[todas_las_cat[0].get("_id")])
-    prod_4=Producto("sanguche",[todas_las_cat[1].get("_id")]])
+    prod_4=Producto("sanguche",[todas_las_cat[1].get("_id")])
 
     insertar_producto(prod_1)
     insertar_producto(prod_2)
@@ -234,21 +234,26 @@ def cargar_data_en_todos_lados():
     insertar_categoria_cliente(cat_cliente1)
     insertar_categoria_cliente(cat_cliente2)
 
-    todas_las_categorias()
+    todas_las_categorias=obtener_categorias_clientes()
 
-    cliente1=Cliente("pedro",cat_cliente1.to_dict().get("_id"))
-    cliente2=Cliente("Sabrina",cat_cliente2.to_dict().get("_id"))
-    cliente3=Cliente("Felipe",cat_cliente2.to_dict().get("_id"))
-    cliente4=Cliente("Joni",cat_cliente2.to_dict().get("_id"))
+    cliente1=Cliente("pedro",todas_las_categorias[0].get("_id"))
+    cliente2=Cliente("Sabrina",todas_las_categorias[1].get("_id"))
+    cliente3=Cliente("Felipe",todas_las_categorias[0].get("_id"))
+    cliente4=Cliente("Joni",todas_las_categorias[1].get("_id"))
 
-    todos_los_clientes=obtener_clientes()
 
     insertar_cliente(cliente1)
     insertar_cliente(cliente2)
     insertar_cliente(cliente3)
     insertar_cliente(cliente4)
 
-session=Session()
+    todos_los_clientes=obtener_clientes()
+    
+    solicitud1=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[1].get("_id")],[2,3],todos_los_clientes[0].get("_id"),)
+    
+    
+    
+    session=Session()
     session.iniciar_session()
 
 def main():
@@ -260,6 +265,7 @@ def main():
     ## armar categoría clientes
     ## armar clientes
     
+    ## armar estadosDe Solicitudes
     ## armar sesiones
     # armar solicitudes 
     # armar factura 
