@@ -137,7 +137,7 @@ class Almacen:
             return False
     def agregarRegistro(self,RegistroAlmacen):
         try:
-            self.astra_db.db[self.collection_name].insert_one(RegistroAlmacen)
+            self.astra_db.db[self.collection_name].insert_one(RegistroAlmacen.to_dict())
         except Exception as e:
             print(f"no se pudo agregar registro {e}")
 

@@ -8,14 +8,14 @@ def insertar_solicitud(solicitud: Solicitud):
     """Inserta una solicitud en la base de datos."""
     try:
         solicitudes_collection.insert_one(solicitud.to_dict())
-        print(f"✅ Solicitud con ID '{solicitud.id_solicitud}' insertada correctamente.")
+        print(f"✅ Solicitud  insertada correctamente.")
     except Exception as e:
         print(f"❌ Error al insertar solicitud: {e}")
 
 def obtener_solicitudes():
-    """Obtiene la lista de solicitudes sin el campo _id."""
+    """Obtiene la lista de solicitudes ."""
     try:
-        return list(solicitudes_collection.find({}, {"_id": 0}))
+        return list(solicitudes_collection.find({}))
     except Exception as e:
         print(f"❌ Error al obtener solicitudes: {e}")
         return []

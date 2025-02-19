@@ -8,7 +8,7 @@ def insertar_categoria(categoria: CategoriaProducto):
     """Inserta una categoría de producto en la base de datos"""
     try:
         categorias_collection.insert_one(categoria.to_dict())
-        print(f"✅ Categoría '{categoria.nombre}' insertada correctamente.")
+        print(f"✅ Categoría '{categoria.to_dict().get("nombre")}' insertada correctamente.")
         return True
     except Exception as e:
         print(f"❌ Error al insertar categoría: {e}")
