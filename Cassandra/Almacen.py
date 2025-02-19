@@ -9,6 +9,7 @@ class Almacen:
     def __init__(self):
         self.astra_db = AstraDBConnection()
         self.collection_name = "Almacen"
+        print()
 
     def create_collection(self):
         """Crea la colección 'Almacen' si no existe."""
@@ -137,7 +138,7 @@ class Almacen:
             return False
     def agregarRegistro(self,RegistroAlmacen):
         try:
-            self.astra_db.db[self.collection_name].insert_one(RegistroAlmacen)
+            self.astra_db.db[self.collection_name].insert_one(RegistroAlmacen.to_dict())
         except Exception as e:
             print(f"no se pudo agregar registro {e}")
 

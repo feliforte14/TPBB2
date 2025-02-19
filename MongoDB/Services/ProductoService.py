@@ -1,7 +1,7 @@
 from MongoDB.Config.ConeccionMongo import MongoDBConnection
 from MongoDB.Models.Producto import Producto
 from MongoDB.Services.CategoriaProductoService import (
-    insertar_categoria, obtener_categorias, eliminar_todas_las_categorias,obtener_categoria_por_descripcion,obtener_categoria_por_id
+    insertar_categoria, obtener_categorias, eliminar_todas_las_categorias,obtener_categoria_por_nombre,obtener_categoria_por_id
 )
 db = MongoDBConnection().db
 

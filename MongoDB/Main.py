@@ -1,3 +1,6 @@
+from random import randint
+from Cassandra.Models.RegistroAlmacen import RegistroAlmacen
+from Cassandra.Almacen import Almacen
 from MongoDB.Services.ClienteService import (
     insertar_cliente, obtener_clientes, eliminar_todos_los_clientes
 )
@@ -5,7 +8,7 @@ from MongoDB.Services.ProductoService import (
     insertar_producto, obtener_productos, eliminar_todos_los_productos
 )
 from MongoDB.Services.CategoriaProductoService import (
-    insertar_categoria, obtener_categorias, eliminar_todas_las_categorias
+    insertar_categoria, obtener_categorias, eliminar_todas_las_categorias,actualizar_categoria_producto
 )
 from MongoDB.Services.CategoriaClienteService import (
     insertar_categoria_cliente, obtener_categorias_clientes, eliminar_todas_las_categorias_clientes
@@ -198,18 +201,25 @@ def limpiar_y_insertar_facturas(): # Funcion para test
     except Exception as ex:
         print(f"Otro error: {ex}")
     
-almacen=Almacen()
-session=Session(
-)
+
 
 
 def cargar_data_en_todos_lados():
-    cat_prod_1=CatalogoProducto("tecnologia","cosas tecnológicas")
-    cat_prod_2=CatalogoProducto("alimnetos","cosas ricas")
+    eliminar_todas_las_categorias()
+    eliminar_todas_las_categorias_clientes()
+    eliminar_todas_las_solicitudes()
+    eliminar_todos_los_catalogos()
+    eliminar_todos_los_clientes()
+    eliminar_todos_los_estados_solicitud()
+    eliminar_todos_los_productos()
+
+    cat_prod_1=CategoriaProducto("tecnologia","cosas tecnológicas")
+    cat_prod_2=CategoriaProducto("alimnetos","cosas ricas")
     
     insertar_categoria(cat_prod_1)
     insertar_categoria(cat_prod_2)
     todas_las_cat=obtener_categorias()
+
 
     prod_1=Producto("celular",[todas_las_cat[0].get("_id")])
     prod_2=Producto("coca",[todas_las_cat[1].get("_id")])
@@ -222,13 +232,19 @@ def cargar_data_en_todos_lados():
     insertar_producto(prod_4)
 
     todos_los_prod=obtener_productos()
-    catalogo1=CatalogoProducto("Lanus",[todos_los_prod[0].get("_id"),todos_los_prod[2].get("_id")])
-    catalogo2=CatalogoProducto("Balcarce",[todos_los_prod[1].get("_id"),todos_los_prod[3].get("_id")])
+    actualizar_categoria_producto(todas_las_cat[0].get("_id"),todos_los_prod[0].get("_id"))
+    actualizar_categoria_producto(todas_las_cat[1].get("_id"),todos_los_prod[1].get("_id"))
+    actualizar_categoria_producto(todas_las_cat[0].get("_id"),todos_los_prod[2].get("_id"))
+    actualizar_categoria_producto(todas_las_cat[1].get("_id"),todos_los_prod[3].get("_id"))
+
+    catalogo1=CatalogoProducto("Lanus","productos de  la categoria Lanus",[todos_los_prod[0].get("_id"),todos_los_prod[2].get("_id")])
+    catalogo2=CatalogoProducto("Balcarce","productos de  la categoria Lanus",[todos_los_prod[1].get("_id"),todos_los_prod[3].get("_id")])
 
     insertar_catalogo(catalogo1)
     insertar_catalogo(catalogo2)
 
-    cat_cliente1=CategoriaCliente("low","clientes básicos")
+
+    cat_cliente1=CategoriaCliente("low","clientes básicos",0.0)
     cat_cliente2=CategoriaCliente("upper","clientes premium",0.8)
 
     insertar_categoria_cliente(cat_cliente1)
@@ -236,10 +252,11 @@ def cargar_data_en_todos_lados():
 
     todas_las_categorias=obtener_categorias_clientes()
 
-    cliente1=Cliente("pedro",todas_las_categorias[0].get("_id"))
-    cliente2=Cliente("Sabrina",todas_las_categorias[1].get("_id"))
-    cliente3=Cliente("Felipe",todas_las_categorias[0].get("_id"))
-    cliente4=Cliente("Joni",todas_las_categorias[1].get("_id"))
+
+    cliente1=Cliente("pedro",todas_las_categorias[0].get("_id"),"contraseña1")
+    cliente2=Cliente("Sabrina",todas_las_categorias[1].get("_id"),"contraseña2")
+    cliente3=Cliente("Felipe",todas_las_categorias[0].get("_id"),"contraseña3")
+    cliente4=Cliente("Joni",todas_las_categorias[1].get("_id"),"contraseña4",)
 
 
     insertar_cliente(cliente1)
@@ -249,12 +266,54 @@ def cargar_data_en_todos_lados():
 
     todos_los_clientes=obtener_clientes()
     
-    solicitud1=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[1].get("_id")],[2,3],todos_los_clientes[0].get("_id"),)
-    
-    
-    
+    estado_solicitud1=EstadoSolicitud("Carrito","Pendiente a confirmar carrito")
+    estado_solicitud2=EstadoSolicitud("Confirmado","Pendiente a facturar")
+    estado_solicitud3=EstadoSolicitud("Cancelado","Carrito cancelado")
+ 
+    insertar_estado_solicitud(estado_solicitud1)
+    insertar_estado_solicitud(estado_solicitud2)
+    insertar_estado_solicitud(estado_solicitud3)
+
+    todos_los_estados_soli=obtener_estados_solicitud()
+
+    solicitud1=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[1].get("_id")],[2,3],todos_los_clientes[0].get("_id"),todos_los_estados_soli[0].get("_Id"))
+    solicitud2=Solicitud([todos_los_prod[1].get("_id"),todos_los_prod[2].get("_id")],[2,3],todos_los_clientes[1].get("_id"),todos_los_estados_soli[0].get("_Id"))
+    solicitud3=Solicitud([todos_los_prod[0].get("_id"),todos_los_prod[3].get("_id")],[2,3],todos_los_clientes[0].get("_id"),todos_los_estados_soli[1].get("_Id"))
+
+    insertar_solicitud(solicitud1)    
+    insertar_solicitud(solicitud2)
+    insertar_solicitud(solicitud3)
+
+    tadas_las_solis=obtener_solicitudes()
     session=Session()
-    session.iniciar_session()
+    session.borrar_datos()
+
+    session.iniciar_session(todos_los_clientes[0].get("_id"))
+
+    session.nueva_solicitud(todos_los_clientes[0].get("_id"),tadas_las_solis[0]["_id"])
+    session.cerrar_session(todos_los_clientes[0].get("_id"))
+
+    session.iniciar_session(todos_los_clientes[1].get("_id"))
+    session.nueva_solicitud(todos_los_clientes[1].get("_id"),tadas_las_solis[1]["_id"])
+    session.cerrar_session(todos_los_clientes[1].get("_id"))
+
+    session.iniciar_session(todos_los_clientes[0].get("_id"))
+    
+    session.nueva_solicitud(todos_los_clientes[0].get("_id"),tadas_las_solis[2]["_id"])
+    session.cerrar_session(todos_los_clientes[0].get("_id"))
+    
+    almacen=Almacen()
+    almacen.borrar_datos()
+
+    reg1=RegistroAlmacen(todos_los_prod[0].get("_id"),randint(0,50),randint(0,50000))    
+    reg2=RegistroAlmacen(todos_los_prod[1].get("_id"),randint(0,50),randint(0,50000))
+    reg3=RegistroAlmacen(todos_los_prod[2].get("_id"),randint(0,50),randint(0,50000))
+    reg4=RegistroAlmacen(todos_los_prod[3].get("_id"),randint(0,50),randint(0,50000))
+
+    almacen.agregarRegistro(reg1)
+    almacen.agregarRegistro(reg2)
+    almacen.agregarRegistro(reg3)
+    almacen.agregarRegistro(reg4)
 
 def main():
 
@@ -275,6 +334,15 @@ def main():
     """ Función principal para gestionar clientes, productos y categorías en MongoDB """
     try:
 
+        cargar_data_en_todos_lados()
+     #   docs=obtener_productos ()
+    #    print(docs)
+        """ 
+            for doc in docs:
+            cats=doc.get("categorias")
+            for cat in cats:
+                print(f"/n  {cat}")
+        """
         """
         limpiar_y_insertar_clientes()
         
@@ -286,9 +354,7 @@ def main():
         limpiar_y_insertar_productos()
         limpiar_y_insertar_catalogos()
                 """
-
-        print(obtener_catalogo_por_descripcion("Lanus"))
-        
+   
 
     except Exception as e:
             print(f"❌ Error en la ejecución: {e}")
