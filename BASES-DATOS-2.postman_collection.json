@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "74288dfd-775b-4aaa-b514-5d7ee0b54603",
+		"name": "BASES-DATOS-2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27987221",
+		"_collection_link": "https://solar-equinox-217768.postman.co/workspace/test~9190bf19-6552-4c51-a13d-c4d1173512c1/collection/27987221-74288dfd-775b-4aaa-b514-5d7ee0b54603?action=share&source=collection_link&creator=27987221"
+	},
+	"item": [
+		{
+			"name": "guargar un carrito",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\",\r\n \"productos\":[\"coca\",\"celular\"],\r\n \"cantidad\":[20,3]   \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/carrito",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"carrito"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Productos por nombre de categoría",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/categorias_productos/tecnologia",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"categorias_productos",
+						"tecnologia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Productos según todas las categorias",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/categorias_productos",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"categorias_productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Catalogos",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/catalogos",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"catalogos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Catalogo por nombre de catalogo",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/catalogos/Lanus",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"catalogos",
+						"Lanus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todos los productos ",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/productos",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"productos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

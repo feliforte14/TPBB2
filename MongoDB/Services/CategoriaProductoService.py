@@ -41,7 +41,7 @@ def obtener_categoria_por_id(_id_categoria):
     
 def obtener_categoria_por_nombre(_nombre):
     try:
-        return categorias_collection.find({"nombre":_nombre})
+        return categorias_collection.find_one({"nombre":_nombre})
     except Exception as e:
         print(f"no se encontró la categoría buscada  {e}")
         return False

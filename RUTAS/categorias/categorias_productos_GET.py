@@ -11,17 +11,7 @@ categorias_blue = Blueprint("categorias", __name__)  # Se usa un Blueprint en ve
 @categorias_blue.route("/categorias_productos", methods=["get"])
 def categorias_productos_GET():
     try:
-        """
-        data = request.json
-        id_cliente = data.get("id_cliente")
-        id_solicitud = data.get("id_solicitud")
-        
-        if not id_cliente or not id_solicitud:
-            return jsonify({"error": "Faltan datos"}), 400
 
-        resultado = procesar_datos(id_cliente, id_solicitud)
-        return jsonify(resultado), 200
-        """
         respuesta=[]
         docs=obtener_categorias ()
 
@@ -43,28 +33,23 @@ def categorias_productos_GET():
 @categorias_blue.route("/categorias_productos/<nombre>", methods=["get"])
 def categoria_de_productos_por_nombre_GET(nombre):
     try:
-        """
-        data = request.json
-        id_cliente = data.get("id_cliente")
-        id_solicitud = data.get("id_solicitud")
-        
-        if not id_cliente or not id_solicitud:
-            return jsonify({"error": "Faltan datos"}), 400
-
-        resultado = procesar_datos(id_cliente, id_solicitud)
-        return jsonify(resultado), 200
-        """
-        respuesta=[]
-        docs=obtener_productos ()
+        encontrada=obtener_categoria_por_nombre(nombre)
+       
+        respuesta={
+            "nombre":encontrada.get("nombre") ,
+            "descipcion": encontrada.get("descripcion"),
+            "listaProductos":[]
+        }
     #    print(docs)
+        
+        for prod in encontrada.get("listaProductos"):
+            p=obtener_producto_por_id(prod)
+            producto={"descripcion":p.get("descripcion"),
+                "stock":almacen.conocerStock(prod),
+                "precio":almacen.conocerPrecio(prod)                      
+                      }
+            respuesta["listaProductos"].append(producto)
 
-        for doc in docs:
-            producto={"descripcion":doc.get("descripcion"),"categorias":[]}
-            cats=doc.get("categorias")
-            for cat in cats:
-
-                producto["categorias"].append(obtener_categoria_por_id(cat).get("nombre"))
-            respuesta.append(producto)
 
         return jsonify(respuesta),200
 
