@@ -336,7 +336,7 @@ def main():
     """ Función principal para gestionar clientes, productos y categorías en MongoDB """
     try:
 
-    #    cargar_data_en_todos_lados()
+     #   cargar_data_en_todos_lados()
      #   docs=obtener_productos ()
     #    print(docs)
         """
