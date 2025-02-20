@@ -286,6 +286,7 @@ def cargar_data_en_todos_lados():
 
     tadas_las_solis=obtener_solicitudes()
     session=Session()
+    session.create_collection()
     session.borrar_datos()
 
     session.iniciar_session(todos_los_clientes[0].get("_id"))

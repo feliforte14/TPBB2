@@ -115,6 +115,33 @@ class Almacen:
             print(" no se pueden definir stock menores que  cero")
             return False    
 
+    def operarStockActual(self,id_producto,cantidad,operacion):
+        query={"_id_producto":id_producto}
+        producto = self.astra_db.find(self.collection_name, query)
+        cantidad_actual=0
+
+        for p in producto:
+            cantidad_actual=p.get("stock")
+        if operacion =="resta":
+            resultado=cantidad_actual - cantidad
+        if operacion =="suma":
+            resultado=cantidad_actual + cantidad
+        if resultado >=0:
+            update={"$set":{"stock":resultado}}
+            try:
+                self.astra_db.db[self.collection_name].update_one(query, update)
+                print(f'se actualizó el stock del producto a {resultado}')
+                return True
+            
+            except Exception as e:
+
+                print(f"No se encontró ningún producto con id {id_producto},{e}.")
+                return False
+        else:
+            print(" no se pueden definir stock menores que  cero")
+            return False    
+
+
     def  sumarAlStockActual(self,id_producto,cantidad_a_sumar):
         if cantidad_a_sumar>0:
             query={"_id_producto":id_producto}
@@ -136,6 +163,8 @@ class Almacen:
         else:
             print("no se pueden sumar negativos")
             return False
+
+
     def agregarRegistro(self,RegistroAlmacen):
         try:
             self.astra_db.db[self.collection_name].insert_one(RegistroAlmacen.to_dict())
@@ -145,3 +174,4 @@ class Almacen:
     def find_all(self):
         documents = self.astra_db.find(self.collection_name)
         return list(documents)  # Convertir el cursor a una lista
+almacen=Almacen()
