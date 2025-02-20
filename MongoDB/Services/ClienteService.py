@@ -27,3 +27,10 @@ def eliminar_todos_los_clientes():
         print(f"🗑️ {resultado.deleted_count} clientes eliminados.")
     except Exception as e:
         print(f"❌ Error al eliminar clientes: {e}")
+
+def obtener_cliente_nomb_y_contra(nombre_cliente,contraseña_cliente):
+    try:
+        return clientes_collection.find_one({"nombre":nombre_cliente,"contraseña":contraseña_cliente})
+    except Exception as e:
+        print(f"no se encontró el cliente {e}")
+        return False

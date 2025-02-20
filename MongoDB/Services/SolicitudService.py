@@ -8,11 +8,11 @@ solicitudes_collection = db.get_collection("solicitudes")  # 🔹 Referencia ún
 def insertar_solicitud(solicitud: Solicitud):
     """Inserta una solicitud en la base de datos."""
     try:
-        solicitudes_collection.insert_one(solicitud.to_dict())
+        return solicitudes_collection.insert_one(solicitud.to_dict()).__getattribute__("_id")
         print(f"✅ Solicitud  insertada correctamente.")
     except Exception as e:
         print(f"❌ Error al insertar solicitud: {e}")
-
+        return False
 def obtener_solicitudes():
     """Obtiene la lista de solicitudes ."""
     try:
@@ -47,3 +47,4 @@ def carrito_a_pedido(id_solicitud):
     except Exception as e:
         print(f"no se pudo generar el pedido {e}")
         return False
+    

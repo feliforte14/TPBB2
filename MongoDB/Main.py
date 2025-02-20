@@ -301,7 +301,9 @@ def cargar_data_en_todos_lados():
     
     session.nueva_solicitud(todos_los_clientes[0].get("_id"),tadas_las_solis[2]["_id"])
     session.cerrar_session(todos_los_clientes[0].get("_id"))
-    
+
+    session.iniciar_session(todos_los_clientes[2].get("_id"))
+
     almacen=Almacen()
     almacen.borrar_datos()
 

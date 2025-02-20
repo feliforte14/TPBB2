@@ -41,7 +41,7 @@ def obtener_producto_por_id(_id_producto):
 
 def obtener_producto_por_descripcion(_descripcion):
     try:
-        return db.get_collection("productos").find({"descripcion":_descripcion})
+        return db.get_collection("productos").find_one({"descripcion":_descripcion})
     except Exception as e :
         print(f"no se pudo obtener producto {e}")
 

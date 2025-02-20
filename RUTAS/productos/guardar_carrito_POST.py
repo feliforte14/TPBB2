@@ -16,34 +16,44 @@ def carrito_POST():
         data = request.json
         #busca al cliente
         nombre_cliente = data.get("nombre")
-        contraseña_cliente=data.get("contraseña")        
-        cliente=obtener_nomb_y_contra(nombre_cliente,contraseña_cliente)
-
+        contraseña_cliente=data.get("contraseña")
+        try: 
+            cliente=obtener_cliente_nomb_y_contra(nombre_cliente,contraseña_cliente)
+        except Exception as e:
+            return jsonify({"no se encontró cliente": str(e)}), 500
         
-        """
+        lista_productos=[]
+        productos=data.get("productos")
+        print(productos) 
+        try:       
+            for prod in productos:
+                print(f" producto a insertar: {prod}")
+                try:
+                    producto=obtener_producto_por_descripcion(prod)
 
-        data = request.json
-        nombre_cliente = data.get("nombre")
-        id_solicitud = data.get("id_solicitud")
+                    lista_productos.append(producto.get("_id"))
+                except Exception as e:
+                    return jsonify({"no se encontró producto": str(e)}), 500
+
+
+        except Exception as i:
+            return jsonify({"error al obtener estado --": str(i)}), 500
+
+
+        try:
+
+            estado=obtener_estado_por_nombre("Carrito")
+            carrito=Solicitud(lista_productos,data.get("cantidad"),cliente.get("_id"),estado.get("_id"))
+            _id=insertar_solicitud(carrito)
+        except Exception as e:
+            return jsonify({"error al obtener estado": str(e)}), 500
+        try:
+
+            sesiones.nueva_solicitud(cliente.get("_id"),_id)
+        except Exception as e:
+            return jsonify({"error--": str(e)}), 500
         
-        if not id_cliente or not id_solicitud:
-            return jsonify({"error": "Faltan datos"}), 400
-
-        resultado = procesar_datos(id_cliente, id_solicitud)
-        return jsonify(resultado), 200
-        """
-        respuesta=[]
-        productos=obtener_productos()
-        
-        for prods in productos:
-            producto={"descripcion":prods.get("descripcion"),"categorias":[],"precio":almacen.conocerPrecio(prods.get("_id")),"stock":almacen.conocerStock(prods.get("id"))}
-            cats=prods.get("categorias")
-            for cat in cats:
-
-                producto["categorias"].append(obtener_categoria_por_id(cat).get("descripcion"))
-            respuesta.append(producto)
-
-        return jsonify(respuesta),200
+        return jsonify(True),200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error--": str(e)}), 500
