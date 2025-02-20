@@ -30,7 +30,14 @@ def eliminar_todos_los_clientes():
 
 def obtener_cliente_nomb_y_contra(nombre_cliente,contraseña_cliente):
     try:
-        return clientes_collection.find_one({"nombre":nombre_cliente,"contraseña":contraseña_cliente})
+        encontrado=clientes_collection.find_one({"nombre":nombre_cliente,"contraseña":contraseña_cliente})
+       # print(f" se encontró al usuario por nombre y contraseña: {encontrado}")
+        return encontrado
     except Exception as e:
         print(f"no se encontró el cliente {e}")
         return False
+def actualizar_total_compra(id_cliente, total_de_compra):
+    try:
+        return clientes_collection.update_one({"_id":id_cliente},{"$inc":{"total_gastado": total_de_compra,"total_compras":1}})
+    except Exception as e:
+        print(f"no se pudo actualizar el total de compra de un cliente {e}")

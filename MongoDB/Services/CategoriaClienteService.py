@@ -15,7 +15,7 @@ def insertar_categoria_cliente(categoria_cliente: CategoriaCliente):
 def obtener_categorias_clientes():
     """Obtiene la lista de categorías de clientes sin el campo _id"""
     try:
-        return list(categorias_clientes_collection.find({}, {"_id": 0}))
+        return list(categorias_clientes_collection.find({}))
     except Exception as e:
         print(f"❌ Error al obtener categorías de clientes: {e}")
         return []
@@ -27,3 +27,17 @@ def eliminar_todas_las_categorias_clientes():
         print(f"🗑️ {resultado.deleted_count} categorías de clientes eliminadas.")
     except Exception as e:
         print(f"❌ Error al eliminar categorías de clientes: {e}")
+def obtener_categoria_cliente_por_nombre(nombre_categoria):
+
+    try:
+        return categorias_clientes_collection.find_one({"nombre":nombre_categoria})
+    except Exception as e:
+        print(f"no se encontró categoria por nombre {e}")
+        return False
+
+def obterner_categoria_cliente_por_id_categoria(_id):
+    try:
+        return categorias_clientes_collection.find_one({"_id":_id})
+    except Exception as e:
+        print(f"no se encontró categoria con ese nombre {e}")
+        return False

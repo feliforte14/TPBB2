@@ -9,7 +9,7 @@ from MongoDB.Services.ProductoService import *
 
 hacer_pedido_post_blue = Blueprint("hacer pedido", __name__)  # Se usa un Blueprint en vez de crear otra app
 
-@hacer_pedido_post_blue.route("/pedidos/nuevo", methods=["post"])
+@hacer_pedido_post_blue.route("/pedidos/nuevo", methods=["POST"])
 def pedido_POST():
     data = request.json
       #busca al cliente
@@ -22,7 +22,8 @@ def pedido_POST():
             return jsonify({"no se encontró cliente": str(e)}), 500
     try:
         cliente_solicitud= sesiones.ultima_solicitud(cliente.get("_id"))
-        resultado=        carrito_a_pedido(cliente_solicitud)
+        
+        resultado=        carrito_a_pedido(cliente.get("_id"),cliente_solicitud)
         return jsonify(resultado),200
     except Exception as e:
         return jsonify({"no se se realizó el pedido": str(e)}), 500
