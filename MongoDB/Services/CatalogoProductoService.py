@@ -42,7 +42,14 @@ def obtener_catalogo_por_descripcion(descripcion, _id_catalogo=None):
         return catalogos_collection.find_one(query)
     except Exception as e:
         print(f"Error al obtener el catálogo: {e}")
-
+        return False
+def obtener_catalogo_nombre(nombre):
+    try:
+        # Realizar la búsqueda en la colección
+        return catalogos_collection.find_one({"nombre":nombre})
+    except Exception as e:
+        print(f"Error al obtener el catálogo: {e}")
+        return False
 def eliminar_todos_los_catalogos():
     try:
         resultado= catalogos_collection.delete_many({})

@@ -4,9 +4,8 @@ from Cassandra.Almacen import Almacen
 from MongoDB.Services.ClienteService import (
     insertar_cliente, obtener_clientes, eliminar_todos_los_clientes
 )
-from MongoDB.Services.ProductoService import (
-    insertar_producto, obtener_productos, eliminar_todos_los_productos
-)
+from MongoDB.Services.ProductoService import *
+
 from MongoDB.Services.CategoriaProductoService import (
     insertar_categoria, obtener_categorias, eliminar_todas_las_categorias,actualizar_categoria_producto
 )
@@ -20,7 +19,7 @@ from MongoDB.Services.EstadoSolicitudService import (
     insertar_estado_solicitud, obtener_estados_solicitud, eliminar_todos_los_estados_solicitud
 )
 from MongoDB.Services.CatalogoProductoService import(
-    obtener_catalogos,obtener_un_catalogo_por_id,obtener_catalogo_por_descripcion,insertar_catalogo,eliminar_todos_los_catalogos
+    obtener_catalogos,obtener_un_catalogo_por_id,obtener_catalogo_por_descripcion,insertar_catalogo,eliminar_todos_los_catalogos,obtener_catalogo_nombre
 )
 from Cassandra.Almacen import( Almacen)
 from Cassandra.Session import(Session)
@@ -237,8 +236,8 @@ def cargar_data_en_todos_lados():
     actualizar_categoria_producto(todas_las_cat[0].get("_id"),todos_los_prod[2].get("_id"))
     actualizar_categoria_producto(todas_las_cat[1].get("_id"),todos_los_prod[3].get("_id"))
 
-    catalogo1=CatalogoProducto("Lanus","productos de  la categoria Lanus",[todos_los_prod[0].get("_id"),todos_los_prod[2].get("_id")])
-    catalogo2=CatalogoProducto("Balcarce","productos de  la categoria Lanus",[todos_los_prod[1].get("_id"),todos_los_prod[3].get("_id")])
+    catalogo1=CatalogoProducto("Lanus","productos del CATALOGO Lanus",[todos_los_prod[0].get("_id"),todos_los_prod[2].get("_id")])
+    catalogo2=CatalogoProducto("Balcarce","productos del CATALOGO Balarce",[todos_los_prod[1].get("_id"),todos_los_prod[3].get("_id")])
 
     insertar_catalogo(catalogo1)
     insertar_catalogo(catalogo2)
@@ -335,9 +334,27 @@ def main():
     """ Función principal para gestionar clientes, productos y categorías en MongoDB """
     try:
 
-        cargar_data_en_todos_lados()
+    #    cargar_data_en_todos_lados()
      #   docs=obtener_productos ()
     #    print(docs)
+        """
+        catalogo=obtener_catalogo_nombre("Lanus")
+        cat = {
+                "nombre": catalogo.get("nombre"),
+                "descripcion": catalogo.get("descripcion"),
+                "productos": []  # Lista para almacenar los productos del catálogo
+            }
+        lista=catalogo.get("listaProductos",[])
+        for prod_id in lista:
+                producto = obtener_producto_por_id(prod_id)  # Obtener el producto por su ID
+                if producto:  # Verificar si el producto existe
+                    prod_nuevo = {
+                        "descripcion": producto.get("descripcion")
+
+                    }
+                    cat["productos"].append(prod_nuevo)  
+        """                    
+
         """ 
             for doc in docs:
             cats=doc.get("categorias")
