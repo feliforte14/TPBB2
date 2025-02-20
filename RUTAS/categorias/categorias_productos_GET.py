@@ -3,6 +3,8 @@ from urllib.parse import quote, unquote
 from MongoDB.Services.CategoriaProductoService import*
 from MongoDB.Models.Producto import Producto
 from MongoDB.Services.ProductoService import *
+from Cassandra.Session import sesiones
+from Cassandra.Almacen import almacen
 
 categorias_blue = Blueprint("categorias", __name__)  # Se usa un Blueprint en vez de crear otra app
 
@@ -22,13 +24,14 @@ def categorias_productos_GET():
         """
         respuesta=[]
         docs=obtener_categorias ()
-        
+
         for doc in docs:
             cat={"nombre":doc.get("nombre"),"descripcion":doc.get("descripcion"),"listaProductos":[]}
             prods=doc.get("listaProductos")
             for pro in prods:
+                registro={"descripcion":obtener_producto_por_id(pro).get("descripcion"),"stock":almacen.conocerStock(pro),"precio":almacen.conocerPrecio(pro)}
+                cat["listaProductos"].append(registro)
 
-                cat["listaProductos"].append(obtener_producto_por_id(pro).get("descripcion"))
             respuesta.append(cat)
 
         return jsonify(respuesta),200

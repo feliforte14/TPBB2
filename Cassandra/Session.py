@@ -148,3 +148,4 @@ class Session:
             print(doc)
 
         return list(documents)
+sesiones=Session()
