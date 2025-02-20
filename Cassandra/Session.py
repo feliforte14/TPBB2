@@ -148,4 +148,16 @@ class Session:
             print(doc)
 
         return list(documents)
+    def ultima_sesion_de_cliente(self, _id_clienete):
+        try:
+            return self.astra_db.db[self.collection_name].find_one(        
+            { "id_cliente": _id_clienete},
+            sort={ "inicio": constants.SortDocuments.ASCENDING,},projection={"_id": True}
+            )
+
+            
+        except Exception as e:
+            print(f"error en obtener ultima sesion {e}")
+            return False
+
 sesiones=Session()

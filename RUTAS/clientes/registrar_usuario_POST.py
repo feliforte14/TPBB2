@@ -10,8 +10,10 @@ def nuevo_usuario_POST():
         nombre = data.get("nombre")
         contraseña = data.get("contraseña")
         categoria=data.get("categoria")
+
+        cat=obtener_categoria_cliente_por_nombre(categoria)
+        
         nuevo=Cliente(nombre,obtener_categoria_cliente_por_nombre(categoria).get("_id"),contraseña)
-        print(nuevo)
         insertar_cliente(nuevo)
         
         return jsonify({"respuesta":f"ya se registró el nuevo usuario {nombre}"}),200

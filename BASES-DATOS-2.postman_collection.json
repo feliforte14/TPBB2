@@ -7,6 +7,101 @@
 	},
 	"item": [
 		{
+			"name": "registrar usuario nuevo",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"usuario nuevo creado por servicio\",\r\n    \"contraseña\":\"12\",\r\n    \"categoria\":\"low\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/ususarios/nuevo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"ususarios",
+						"nuevo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "iniciar_session",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/session/iniciar",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"session",
+						"iniciar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todos los productos ",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/productos",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "guargar un carrito",
 			"request": {
 				"auth": {
@@ -16,7 +111,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\",\r\n \"productos\":[\"coca\",\"celular\"],\r\n \"cantidad\":[20,3]   \r\n}",
+					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\",\r\n \"productos\":[\"sanguche\",\"celular\"],\r\n \"cantidad\":[2,3]   \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -35,6 +130,79 @@
 					"port": "5000",
 					"path": [
 						"carrito"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registrar pedido",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/pedidos/nuevo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"pedidos",
+						"nuevo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "home de usuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/usuarios/usuario",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"usuarios",
+						"usuario"
 					]
 				}
 			},
@@ -143,15 +311,27 @@
 			"response": []
 		},
 		{
-			"name": "Todos los productos ",
+			"name": "Todas las sesiones de un usuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"   \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/productos",
+					"raw": "http://127.0.0.1:5000//session/todas",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -161,14 +341,16 @@
 					],
 					"port": "5000",
 					"path": [
-						"productos"
+						"",
+						"session",
+						"todas"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "iniciar_session",
+			"name": "cerrar session",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -177,7 +359,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"\r\n}",
+					"raw": "{\r\n     \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -185,7 +367,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/session/iniciar",
+					"raw": "http://127.0.0.1:5000/session/cerrar",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -196,42 +378,7 @@
 					"port": "5000",
 					"path": [
 						"session",
-						"iniciar"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "registrar pedido",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n \"nombre\":\"pedro\" ,\r\n \"contraseña\": \"contraseña1\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://127.0.0.1:5000/pedidos/nuevo",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"pedidos",
-						"nuevo"
+						"cerrar"
 					]
 				}
 			},

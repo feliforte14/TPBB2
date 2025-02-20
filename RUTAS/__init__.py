@@ -9,7 +9,9 @@ from RUTAS.productos.guardar_carrito_POST import carrito_post_blue
 from RUTAS.productos.hacer_pedido_POST import hacer_pedido_post_blue
 from RUTAS.clientes.iniciar_sesion_POST import iniciar_sesion_POST
 from RUTAS.clientes.registrar_usuario_POST import usuarios
-
+from RUTAS.clientes.cerrar_session_POST import cerrar_sesion_POST
+from RUTAS.clientes.ultima_session_get import ultima_sesion_GET
+from RUTAS.clientes.todas_sessiones_get import todas_sesion_GET
 # Crear un Blueprint principal (opcional)
 api_blueprint = Blueprint("api", __name__)
 
@@ -22,3 +24,6 @@ api_blueprint.register_blueprint(carrito_post_blue)
 api_blueprint.register_blueprint(hacer_pedido_post_blue)
 api_blueprint.register_blueprint(iniciar_sesion_POST)
 api_blueprint.register_blueprint(usuarios)
+api_blueprint.register_blueprint(cerrar_sesion_POST)
+api_blueprint.register_blueprint(ultima_sesion_GET)
+api_blueprint.register_blueprint(todas_sesion_GET)
