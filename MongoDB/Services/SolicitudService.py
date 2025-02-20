@@ -8,8 +8,10 @@ solicitudes_collection = db.get_collection("solicitudes")  # 🔹 Referencia ún
 def insertar_solicitud(solicitud: Solicitud):
     """Inserta una solicitud en la base de datos."""
     try:
-        return solicitudes_collection.insert_one(solicitud.to_dict()).__getattribute__("_id")
+        resultado= solicitudes_collection.insert_one(solicitud.to_dict())
+        
         print(f"✅ Solicitud  insertada correctamente.")
+        return resultado.inserted_id
     except Exception as e:
         print(f"❌ Error al insertar solicitud: {e}")
         return False

@@ -24,10 +24,9 @@ def carrito_POST():
         
         lista_productos=[]
         productos=data.get("productos")
-        print(productos) 
         try:       
             for prod in productos:
-                print(f" producto a insertar: {prod}")
+
                 try:
                     producto=obtener_producto_por_descripcion(prod)
 
